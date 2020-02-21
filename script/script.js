@@ -3,7 +3,7 @@
 const DAY_STRING = ['день', 'дня', 'дней'];
 
 const DATA = {
-    whichSite: ["landing", "multiPage", "onlineStore"],
+    whichSite: ['landing', 'multiPage', 'onlineStore'],
     price: [4000, 8000, 26000],
     desktopTemplates: [50, 40, 30],
     adapt: 20,
@@ -20,20 +20,20 @@ const DATA = {
     deadlinePercent: [20, 17, 15]
 };
 
-const startBtn = document.querySelector(".start-button"),
-    firstScreen = document.querySelector(".first-screen"),
-    mainForm = document.querySelector(".main-form"),
-    formCalculate = document.querySelector(".form-calculate"),
-    total = document.querySelector(".total"),
-    endBtn = document.querySelector(".end-button"),
+const startBtn = document.querySelector('.start-button'),
+    firstScreen = document.querySelector('.first-screen'),
+    mainForm = document.querySelector('.main-form'),
+    formCalculate = document.querySelector('.form-calculate'),
+    total = document.querySelector('.total'),
+    endBtn = document.querySelector('.end-button'),
     fastRange = document.querySelector(".fast-range"),
-    totalPriceSum = document.querySelector(".total_price__sum"),
-    adapt = document.getElementById("adapt"),
-    mobileTemplates = document.getElementById("mobileTemplates"),
+    totalPriceSum = document.querySelector('.total_price__sum'),
+    adapt = document.getElementById('adapt'),
+    mobileTemplates = document.getElementById('mobileTemplates'),
     desktopTemplates = document.getElementById('desktopTemplates'),
     editable = document.getElementById('editable'),
     adaptValue = document.querySelector(".adapt_value"),
-    mobileTemplatesValue = document.querySelector(".mobileTemplates_value"),
+    mobileTemplatesValue = document.querySelector('.mobileTemplates_value'),
     desktopTemplatesValue = document.querySelector('.desktopTemplates_value'),
     editableValue = document.querySelector('.editable_value'),
     typeSite = document.querySelector('.type-site'),
@@ -48,81 +48,75 @@ const startBtn = document.querySelector(".start-button"),
     totalPrice = document.querySelector('.total_price'),
     firstFieldset = document.querySelector('.first-fieldset');
 
-function declOfNum(n, titles) {
-    return n + ' ' + titles[n % 10 === 1 && n % 100 !== 11 ?
-        0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2];
-}
+const declOfNum = (n, titles) => n + ' ' + titles[n % 10 === 1 && n % 100 !== 11 ?
+    0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2];
+const showElem = elem => {
+    elem.style.display = 'block';
+};
 
-function showElem(elem) {
-    elem.style.display = "block";
-}
+const hideElem = elem => {
+    elem.style.display = 'none';
+};
 
-function hideElem(elem) {
-    elem.style.display = "none";
-}
-
-function dopOptionsString() {
+const dopOptionsString = (yandex, google, order) => {
     //Подключим Яндекс метрику, Гугл Аналитику и отправку заявок на почту.
-
     let str = '';
 
-    if (metrikaYandex.checked || analyticsGoogle.checked || sendOrder.checked) {
+    if (yandex, google, order) {
         str += 'Подключим';
 
-        if (metrikaYandex.checked) {
+        if (yandex) {
             str += ' Яндекс метрику';
 
-            if (analyticsGoogle.checked && sendOrder.checked) {
+            if (google && order) {
                 str += ', Гугл Аналитику и отправку заявок на почту.';
                 return str;
             }
-            if (analyticsGoogle.checked || sendOrder.checked) {
+            if (google || order) {
                 str += ' и';
             }
         }
 
-        if (analyticsGoogle.checked) {
+        if (google) {
             str += ' Гугл Аналитику';
 
-            if (sendOrder.checked) {
+            if (order) {
                 str += ' и';
             }
         }
 
-        if (sendOrder.checked) {
+        if (order) {
             str += ' отправку заявок на почту';
         }
         str += '.';
     }
 
-
     return str;
-}
+};
 
-function renderTextContent(total, site, maxDay, minDay) {
+const renderTextContent = (total, site, maxDay, minDay) => {
 
-    totalPriceSum.textContent = total;
-    typeSite.textContent = site;
-    maxDeadline.textContent = declOfNum(maxDay, DAY_STRING);
-    rangeDeadline.min = minDay;
-    rangeDeadline.max = maxDay;
-    deadlineValue.textContent = declOfNum(rangeDeadline.value, DAY_STRING);
+        totalPriceSum.textContent = total;
+        typeSite.textContent = site;
+        maxDeadline.textContent = declOfNum(maxDay, DAY_STRING);
+        rangeDeadline.min = minDay;
+        rangeDeadline.max = maxDay;
+        deadlineValue.textContent = declOfNum(rangeDeadline.value, DAY_STRING);
 
-    adaptValue.textContent = adapt.checked ? 'Да' : 'Нет';
-    mobileTemplatesValue.textContent = mobileTemplates.checked ? 'Да' : 'Нет';
-    desktopTemplatesValue.textContent = desktopTemplates.checked ? 'Да' : 'Нет';
-    editableValue.textContent = editable.checked ? 'Да' : 'Нет';
+        adaptValue.textContent = adapt.checked ? 'Да' : 'Нет';
+        mobileTemplatesValue.textContent = mobileTemplates.checked ? 'Да' : 'Нет';
+        desktopTemplatesValue.textContent = desktopTemplates.checked ? 'Да' : 'Нет';
+        editableValue.textContent = editable.checked ? 'Да' : 'Нет';
 
-    calcText.textContent = `
+        calcText.textContent = `
         Сделаем ${site} ${adapt.checked ?
             ', адаптированный под мобильные устройства и планшеты' : ''}.
             ${editable.checked ? `Установим панель админстратора,
             чтобы вы могли самостоятельно менять содержание на сайте без разработчика.` : ''}
-            ${dopOptionsString()}
-            `;
-}
+            ${dopOptionsString(metrikaYandex.checked, analyticsGoogle.checked, sendOrder.checked)}`;
+};
 
-function priceCalculation(elem = {}) {
+const priceCalculation = (elem = {}) => {
     let result = 0,
         options = [],
         index = 0,
@@ -156,7 +150,7 @@ function priceCalculation(elem = {}) {
 
     result += DATA.price[index];
 
-    options.forEach(function (key) {
+    options.forEach(key => {
         if (typeof DATA[key] === "number") {
             if (key === "sendOrder") {
                 result += DATA[key];
@@ -180,7 +174,7 @@ function priceCalculation(elem = {}) {
 
 }
 
-function handlerCallBackForm(event) {
+const handlerCallBackForm = event => {
     const target = event.target;
 
     if (adapt.checked) {
@@ -198,9 +192,9 @@ function handlerCallBackForm(event) {
     if (target.classList.contains("calc-handler")) {
         priceCalculation(target);
     }
-}
+};
 
-function moveBackTotoal() {
+const moveBackTotoal = () => {
     if (document.documentElement.getBoundingClientRect().bottom > document.documentElement.clientHeight + 200) {
         totalPriceSum.classList.remove('totalPriceBottom');
         firstFieldset.after(totalPrice);
@@ -208,9 +202,9 @@ function moveBackTotoal() {
         window.addEventListener('scroll', moveTotoal);
     }
 
-}
+};
 
-function moveTotal() {
+const moveTotal = () => {
     if (document.documentElement.getBoundingClientRect().bottom < document.documentElement.clientHeight + 200) {
         totalPriceSum.classList.add('totalPriceBottom');
         endBtn.before(totalPrice);
@@ -219,13 +213,14 @@ function moveTotal() {
     }
 }
 
-startBtn.addEventListener("click", function () {
+
+startBtn.addEventListener("click", () => {
     showElem(mainForm);
     hideElem(firstScreen);
     window.addEventListener('scroll', moveTotal);
 });
 
-endBtn.addEventListener("click", function () {
+endBtn.addEventListener("click", () => {
 
     for (const elem of formCalculate.elements) {
         if (elem.tagName === 'FIELDSET') {
@@ -235,7 +230,7 @@ endBtn.addEventListener("click", function () {
 
     cardHead.textContent = 'Заявка на разработку сайта';
 
-    hideElem(totalPrice);
+    //hideElem(totalPrice);
 
     showElem(total);
 
